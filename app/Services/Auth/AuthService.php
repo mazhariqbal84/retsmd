@@ -24,7 +24,7 @@ class AuthService extends BaseService
             $user->password = Hash::make($data['password']);
             $user->save();
 
-
+//https://medium.com/swlh/api-authentication-using-laravel-sanctum-laravel-8-19ed8b4f124c
             $data['full_name'] = $data['full_name'];
             $data['email'] = $data['email'];
             $data['token'] = $user->createToken($data['email'])->plainTextToken;

@@ -29,7 +29,7 @@ class AuthController extends Controller
         }
 
         // Success responce
-        return (new GlobalApiResponse())->success('Login Sucessfully.', 1,$data);
+        return (new GlobalApiResponse())->success('Register Successfully.', 1,$data);
 
     }
 
