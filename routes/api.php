@@ -20,14 +20,19 @@ Route::middleware('cors')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
         Route::post('login', [AuthController::class, 'login']);
-
+        Route::post('forget-password', [AuthController::class, 'forget_password']);
+        Route::post('otp-verify', [AuthController::class, 'otp_verify']);
     });
 
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::prefix('auth')->group(function () {
 
+        Route::get('/user', [AuthController::class, 'user']);
+        Route::get('/refresh', [AuthController::class, 'refresh']);
+
+        // User Logout
+        Route::post('logout', [AuthController::class, 'logout']);
     });
 });
-
 });

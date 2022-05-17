@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Auth;
 use App\Http\Requests\BaseRequest;
 
-class LoginRequest extends BaseRequest
+class ForgetRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class LoginRequest extends BaseRequest
     {
         return [
             'email' => 'required|string|email',
-            'password' => 'required|string|min:6',
         ];
     }
 
@@ -33,7 +32,6 @@ class LoginRequest extends BaseRequest
     {
         return [
             'email.*' => 'Please enter valid email',
-            'password.required'  => 'Please enter valid password',
         ];
     }
 }
