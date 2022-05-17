@@ -5,7 +5,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ForgetRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\OtpVerifiedRequest;
+use App\Http\Requests\Auth\PasswordChangeRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResendOtpCodeRequest;
 use App\libs\Response\GlobalApiResponse;
 use App\libs\Response\GlobalApiResponseCodeBook;
 use App\Services\Auth\AuthService;
@@ -25,12 +27,10 @@ class AuthController extends Controller
     {
         // Call the function form Service
         $data =$this->authService->register($request->all());
-
         //Check If error is come
         if ($this->authService->hasError()) {
          return (new GlobalApiResponse())->error(GlobalApiResponseCodeBook::INVALID_CREDENTIALS, 'Invalid Credentials', $this->authService->getErrors());
         }
-
         // Success responce
         return (new GlobalApiResponse())->success('Register Successfully.', 1,$data);
 
@@ -40,12 +40,10 @@ class AuthController extends Controller
     {
         // Call the function form Service
         $data =$this->authService->login($request->all());
-
         //Check If error is come
         if ($this->authService->hasError()) {
             return (new GlobalApiResponse())->error(GlobalApiResponseCodeBook::INVALID_CREDENTIALS, 'Invalid Credentials', $this->authService->getErrors());
         }
-
         // Success responce
         return (new GlobalApiResponse())->success('login Successfully.', 1,$data);
     }
@@ -55,12 +53,10 @@ class AuthController extends Controller
     {
         // Call the function form Service
           $data =$this->authService->forgetpassword($request->all());
-
         //Check If error is come
         if ($this->authService->hasError()) {
             return (new GlobalApiResponse())->error(GlobalApiResponseCodeBook::INVALID_FORM_INPUTS, 'Invalid Form Input', $this->authService->getErrors());
         }
-
         // Success responce
         return (new GlobalApiResponse())->success($data, 1);
 
@@ -69,12 +65,36 @@ class AuthController extends Controller
     {
         // Call the function form Service
         $data =$this->authService->otp_verify($request->all());
-
         //Check If error is come
         if ($this->authService->hasError()) {
             return (new GlobalApiResponse())->error(GlobalApiResponseCodeBook::INVALID_FORM_INPUTS, 'Invalid Form Input', $this->authService->getErrors());
         }
+        // Success responce
+        return (new GlobalApiResponse())->success($data, 1);
 
+    }
+
+    public function password_change(PasswordChangeRequest $request)
+    {
+        // Call the function form Service
+        $data =$this->authService->password_change($request->all());
+        //Check If error is come
+        if ($this->authService->hasError()) {
+            return (new GlobalApiResponse())->error(GlobalApiResponseCodeBook::INVALID_FORM_INPUTS, 'Invalid Form Input', $this->authService->getErrors());
+        }
+        // Success responce
+        return (new GlobalApiResponse())->success($data, 1);
+
+    }
+
+    public function resend_otp_code(ResendOtpCodeRequest $request)
+    {
+        // Call the function form Service
+        $data = $this->authService->resend_otp_code($request->all());
+        //Check If error is come
+        if ($this->authService->hasError()) {
+            return (new GlobalApiResponse())->error(GlobalApiResponseCodeBook::INVALID_FORM_INPUTS, 'Invalid Form Input', $this->authService->getErrors());
+        }
         // Success responce
         return (new GlobalApiResponse())->success($data, 1);
 
@@ -95,7 +115,11 @@ class AuthController extends Controller
 
     public function user()
     {
-        return (new GlobalApiResponse())->success('User Profile Data.', 1,auth()->user());
+        $data['id'] = auth()->user()->id;
+        $data['full_name'] = auth()->user()->name;
+        $data['email'] = auth()->user()->email;
+
+        return (new GlobalApiResponse())->success('User Profile Data.', 1,$data);
     }
 
     public function logout(Request $request)

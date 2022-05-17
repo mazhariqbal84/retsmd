@@ -22,6 +22,8 @@ Route::middleware('cors')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('forget-password', [AuthController::class, 'forget_password']);
         Route::post('otp-verify', [AuthController::class, 'otp_verify']);
+        Route::post('password-change', [AuthController::class, 'password_change']);
+        Route::post('resend-otp-code', [AuthController::class, 'resend_otp_code']);
     });
 
 
