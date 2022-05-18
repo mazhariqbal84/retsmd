@@ -100,6 +100,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        Auth::guard('web')->logout();
         auth()->user()->tokens()->delete();
         return (new GlobalApiResponse())->success('You have successfully logged out and the token was successfully deleted', 1);
     }
